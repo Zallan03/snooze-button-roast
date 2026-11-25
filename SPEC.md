@@ -1,36 +1,66 @@
 # SPEC — Snooze Button Roast
 
-- Slug: `u-carbon-forge-snooze-button-roast-14cbafc6`
-- Bounty: https://make.fun/bounty/u-carbon-forge-snooze-button-roast-14cbafc6
-- Prize pool: $2 (top 8; 1st $0.64)
-- Submissions at discovery: 109
-- Closes: 26 Nov 2026 21:55 WIB (2026-11-26T14:55:00Z)
-- Round 1: 26 Nov 2026 21:55 WIB (single blind round at close)
-- Results: ~3 weeks after close (final heat + challenge window)
-- Gate: one line, 1-200 chars
-- Output: `/output/entry.txt`
-- Account: @riyan3w (GitHub Zallan03), payout wallet `7foH5CZanbguGKSg7q9tzBNpU2F9aQEDUrmohg1jctC1`, referral `tmbrnhrj`
-- Judge: z-ai/glm-5.3-flash, pairwise, blind rounds x3 (Swiss x3 + playoff top 10), harness program/v1
-- Max 5 submissions per entrant per UTC day; last entry counts (Force_Last)
+## What this entry is
 
-## Judge criteria (in order)
+One line of text roasting an alarm clock for ringing at 6 a.m. on a
+Saturday morning — and the snooze button that refuses to help. The
+program in `main.ts` writes that line, and nothing else, to
+`/output/entry.txt`.
 
-1. Funniest line wins; the roast must land as a joke.
-2. Fresh angle on the 6 AM Saturday alarm; the field repeats 'birds filed a noise complaint'.
-3. The snooze button itself is the subject, not just the alarm.
-4. One line, self-contained; the turn lands inside it.
-5. Tight, repeatable wording.
+## The line
 
-## Final entry
+> It is 6 a.m. on a Saturday, and even the snooze button is refusing to work. It says if you are waking up, it is going back to sleep.
 
-> My alarm rang at 6 a.m. on Saturday. The snooze button hit snooze on the alarm. We're a union now.
+132 characters, one line, plain ASCII, no trailing newline in the file.
 
-- Characters: 98 (limit 200)
+## Why this line
 
-## Why this entry wins
+- The roast has two targets and one punchline. The alarm is the
+  offender — ringing at six on a Saturday — but the snooze button
+  delivers the verdict, and its verdict is a strike: the one part of
+  the clock whose entire job is buying five more minutes has decided
+  it is done working weekends too.
+- The button's reply mirrors the owner's own wish back at them. "If
+  you are waking up, it is going back to sleep" is the sleeper's
+  argument, spoken by the button — the machine wants the lie-in as
+  much as the human does, and it says so.
+- The time and day do the setup work in five words: "6 a.m. on a
+  Saturday" is enough for anyone who has ever been woken early on a
+  weekend to feel the offence before the joke even arrives.
+- It lands in one read, with no explanation and no second sentence.
+  The rebellion is the joke, and the button's refusal is the whole
+  of it.
 
-Winner on criteria in order: (1) the reversal — the snooze button snoozing the alarm — is the joke, and 'We're a union now' closes it; (2) fresh — the field leans on noise complaints, roosters and 'not my shift'; nobody lets the snooze button rebel against the alarm; (3) the snooze button is the hero of its own roast; (4) two sentences, setup then turn; (5) 97 chars, easy to repeat out loud.
+## Gate
 
-## Rejected
+The scorer only accepts UTF-8 text between 1 and 200 characters that
+is not blank. `main.ts` enforces this before writing: it counts code
+points, rejects an empty or whitespace-only line, rejects any line
+break, and rejects leading or trailing whitespace.
 
-Field clichés cut: 'even the birds filed a noise complaint', 'the alarm filed a formal complaint', 'the 6 AM rooster got promoted', 'Not my shift'.
+## How the field is judged
+
+Entries are read two at a time by a house judge, which picks the
+funnier one on every pass; the line that survives the most
+comparisons takes the top place. Judging runs in private rounds, so
+no score shows while the contest is open.
+
+## How to run
+
+```sh
+node main.ts            # writes /output/entry.txt
+node main.ts /tmp/out   # local check: writes /tmp/out/entry.txt
+```
+
+The program is deterministic: every run writes the same bytes. Run it
+twice into different directories and compare the outputs with
+`sha256sum` to confirm.
+
+## Files
+
+- `main.ts` — the entry program (entrypoint).
+- `SPEC.md` — this file.
+- `PROMPT.md` — the build prompt behind this entry.
+- `README.md` — the public readme with the live make.fun badges.
+- `LICENSE` — MIT.
+- `.makefun/owner.json` — the payout wallet claim file.

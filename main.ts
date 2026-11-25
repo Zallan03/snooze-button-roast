@@ -1,18 +1,43 @@
-// Snooze Button Roast
-// Writes one line roasting an alarm clock for ringing at 6 AM on a Saturday (max 200 chars) to <outDir>/entry.txt.
-// Deterministic: fixed text, no network, no randomness, no clock.
+// Snooze Button Roast — make.fun program/v1 entry.
+//
+// This program writes one line to /output/entry.txt: a roast of an
+// alarm clock for ringing at 6 a.m. on a Saturday — and of the snooze
+// button that refuses to help. Pass a directory as the first argument
+// to redirect the output for local testing; the grader runs it with
+// no argument.
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
+// The entry line. The alarm rang at six on a Saturday, and the joke
+// is that even the snooze button — the one part of the clock whose
+// entire job is to buy five more minutes — has gone on strike. The
+// button's reply mirrors the owner's own wish back at them: if you
+// are waking up, I am going back to sleep. The roast lands on the
+// alarm, but the button delivers it.
 const ENTRY =
-  "My alarm rang at 6 a.m. on Saturday. The snooze button hit snooze on the alarm. We're a union now.";
+  "It is 6 a.m. on a Saturday, and even the snooze button is refusing to work. It says if you are waking up, it is going back to sleep.";
 
-const outDir = process.argv[2] ?? "/output";
-if (ENTRY.length < 1 || ENTRY.length > 200) {
-  throw new Error(`entry is ${ENTRY.length} chars, gate needs 1-200`);
+// The sealed gate accepts UTF-8 text of 1 to 200 characters.
+const MIN_CHARS = 1;
+const MAX_CHARS = 200;
+
+const charCount = [...ENTRY].length;
+if (charCount < MIN_CHARS || charCount > MAX_CHARS) {
+  throw new Error(
+    `entry is ${charCount} characters, gate needs ${MIN_CHARS}-${MAX_CHARS}`,
+  );
 }
-if (ENTRY.trim() !== ENTRY || /\n/.test(ENTRY)) {
-  throw new Error("entry must be a single line with no surrounding whitespace");
+if (ENTRY.trim().length === 0) {
+  throw new Error("entry is only whitespace");
 }
-mkdirSync(outDir, { recursive: true });
-writeFileSync(join(outDir, "entry.txt"), ENTRY, "utf8");
+if (ENTRY.includes("\n") || ENTRY.includes("\r")) {
+  throw new Error("entry must be a single line");
+}
+if (ENTRY !== ENTRY.trim()) {
+  throw new Error("entry must not start or end with whitespace");
+}
+
+const destination = process.argv[2] ?? "/output";
+mkdirSync(destination, { recursive: true });
+writeFileSync(join(destination, "entry.txt"), ENTRY, "utf8");
+console.log(`wrote ${charCount} characters to ${join(destination, "entry.txt")}`);
